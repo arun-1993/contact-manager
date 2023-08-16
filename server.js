@@ -1,10 +1,12 @@
 const express = require('express');
-
-const app = express();
-
 const auth = require('./routes/auth');
 const contacts = require('./routes/contacts');
 const users = require('./routes/users');
+const connectDB = require('./config/db');
+
+const app = express();
+
+connectDB();
 
 app.get('/', (request, response) => response.json({ message: 'Welcome to ContactManager API' }));
 
