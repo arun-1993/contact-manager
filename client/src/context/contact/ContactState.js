@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import { v4 } from 'uuid';
 import ContactContext from './ContactContext';
 import ContactReducer from './ContactReducer';
-import { ADD_CONTACT, CLEAR_CURRENT, DELETE_CONTACT, SET_CURRENT } from '../Types';
+import { ADD_CONTACT, CLEAR_CURRENT, DELETE_CONTACT, SET_CURRENT, UPDATE_CONTACT } from '../Types';
 
 const ContactState = props => {
 	const initialState = {
@@ -39,6 +39,10 @@ const ContactState = props => {
 		dispatch({ type: ADD_CONTACT, payload: contact });
 	};
 
+	const updateContact = contact => {
+		dispatch({ type: UPDATE_CONTACT, payload: contact });
+	};
+
 	const deleteContact = id => {
 		dispatch({ type: DELETE_CONTACT, payload: id });
 	};
@@ -56,6 +60,7 @@ const ContactState = props => {
 			contacts: state.contacts,
 			current: state.current,
 			addContact,
+			updateContact,
 			deleteContact,
 			setCurrent,
 			clearCurrent

@@ -1,4 +1,4 @@
-import { ADD_CONTACT, CLEAR_CURRENT, DELETE_CONTACT, SET_CURRENT } from '../Types';
+import { ADD_CONTACT, CLEAR_CURRENT, DELETE_CONTACT, SET_CURRENT, UPDATE_CONTACT } from '../Types';
 
 const ContactReducer = (state, action) => {
 	switch(action.type) {
@@ -6,6 +6,12 @@ const ContactReducer = (state, action) => {
 			return {
 				...state,
 				contacts: [...state.contacts, action.payload]
+			};
+
+		case UPDATE_CONTACT:
+			return {
+				...state,
+				contacts: state.contacts.map(contact => contact.id === action.payload.id ? action.payload : contact)
 			};
 
 		case DELETE_CONTACT:
