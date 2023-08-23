@@ -6,6 +6,8 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import ContactState from './context/contact/ContactState';
 import AuthState from './context/auth/AuthState';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
 
 const App = () => {
 	return (
@@ -18,6 +20,8 @@ const App = () => {
 							<Routes>
 								<Route exact path='/' Component={ Home } />
 								<Route exact path='/about' Component={ About } />
+								<Route exact path='/register' Component={ Register } />
+								<Route exact path='/login' Component={ Login } />
 							</Routes>
 						</div>
 					</Fragment>
