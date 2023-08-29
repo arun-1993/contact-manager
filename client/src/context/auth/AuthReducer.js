@@ -1,4 +1,4 @@
-import { AUTH_ERROR, CLEAR_ERRORS, REGISTER_FAILURE, REGISTER_SUCCESS, USER_LOADED } from '../Types';
+import { AUTH_ERROR, CLEAR_ERRORS, LOGIN_FAILURE, LOGIN_SUCCESS, REGISTER_FAILURE, REGISTER_SUCCESS, USER_LOADED } from '../Types';
 
 const AuthReducer = (state, action) => {
 	switch(action.type) {
@@ -11,9 +11,9 @@ const AuthReducer = (state, action) => {
 			};
 
 		case REGISTER_SUCCESS:
+		case LOGIN_SUCCESS:
 			localStorage.setItem('token', action.payload.token);
-			console.log('In register success dispatch');
-			console.log(localStorage);
+			
 			return {
 				...state,
 				...action.payload,
@@ -22,11 +22,8 @@ const AuthReducer = (state, action) => {
 			};
 
 		case REGISTER_FAILURE:
-			console.log('In Register failure dispatch');
-			// fall through
-
+		case LOGIN_FAILURE:
 		case AUTH_ERROR:
-			console.log('In auth error dispatch');
 			localStorage.removeItem('token');
 
 			return {

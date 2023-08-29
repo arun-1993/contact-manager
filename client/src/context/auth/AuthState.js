@@ -3,7 +3,7 @@ import axios from 'axios';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
 import SetAuthToken from '../../utils/SetAuthToken';
-import { AUTH_ERROR, CLEAR_ERRORS, REGISTER_FAILURE, REGISTER_SUCCESS, USER_LOADED } from '../Types';
+import { AUTH_ERROR, CLEAR_ERRORS, LOGIN_FAILURE, LOGIN_SUCCESS, REGISTER_FAILURE, REGISTER_SUCCESS, USER_LOADED } from '../Types';
 
 const AuthState = props => {
 	const initialState = {
@@ -18,15 +18,12 @@ const AuthState = props => {
 
 	const loadUser = async () => {
 		if(localStorage.getItem('token')) {
-			console.log('Setting AuthToken');
 			SetAuthToken(localStorage.token);
 		}
 
 		try {
-			console.log('Trying to load user');
-			console.log(localStorage);
 			const response = await axios.get('/api/auth');
-			console.log(response);
+
 			dispatch({ type: USER_LOADED, payload: response.data });
 		} catch (error) {
 			dispatch({ type: AUTH_ERROR });
@@ -41,24 +38,36 @@ const AuthState = props => {
 		}
 
 		try {
-			console.log('Registering user');
 			const response = await axios.post('/api/users', formData, config);
-			console.log(response);
-			console.log('Before register dispatch');
-			console.log(localStorage);
+			
 			dispatch({ type: REGISTER_SUCCESS, payload: response.data });
-			console.log('After register dispatch');
-			console.log(localStorage);
+			
+			SetAuthToken(response.data.token);
+			
 			loadUser();
-			console.log('After loadUser');
-			console.log(localStorage);
 		} catch (error) {
 			dispatch({ type: REGISTER_FAILURE, payload: error.response.data.msg });
 		}
 	};
 	
-	const login = () => {
+	const login = async formData => {
+		const config = {
+			header: {
+				'Content-Type': 'application/json'
+			}
+		}
 
+		try {
+			const response = await axios.post('/api/auth', formData, config);
+
+			dispatch({ type: LOGIN_SUCCESS, payload: response.data });
+
+			SetAuthToken(response.data.token);
+
+			loadUser();
+		} catch (error) {
+			dispatch({ type: LOGIN_FAILURE, payload: error.response.msg });
+		}
 	};
 
 	const logout = () => {
