@@ -1,15 +1,16 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/layout/Navbar';
-import Home from './components/pages/Home';
 import About from './components/pages/About';
-import ContactState from './context/contact/ContactState';
-import AuthState from './context/auth/AuthState';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
-import AlertState from './context/alert/AlertState';
 import Alerts from './components/layout/Alerts';
+import Home from './components/pages/Home';
+import Login from './components/auth/Login';
+import Navbar from './components/layout/Navbar';
+import PrivateRoute from './components/routing/PrivateRoute';
+import Register from './components/auth/Register';
+import AlertState from './context/alert/AlertState';
+import AuthState from './context/auth/AuthState';
+import ContactState from './context/contact/ContactState';
 import SetAuthToken from './utils/SetAuthToken';
 
 if(localStorage.token) {
@@ -27,7 +28,7 @@ const App = () => {
 							<div className='container'>
 								<Alerts />
 								<Routes>
-									<Route exact path='/' Component={ Home } />
+									<Route exact path='/' element={ <PrivateRoute component={ Home } /> } />
 									<Route exact path='/about' Component={ About } />
 									<Route exact path='/register' Component={ Register } />
 									<Route exact path='/login' Component={ Login } />
