@@ -41,7 +41,6 @@ const Login = () => {
 		} else {
 			login({ email, password });
 		}
-		console.log('Logged In');
 	}
 
 	return (
